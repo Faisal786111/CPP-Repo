@@ -2,15 +2,28 @@
 using namespace std;
 
 int main(){
+
+    // stringstream ss;  // Step 1: Create a stringstream object
+    // string input = "Hello, World!";
+
+    // ss << input;  // Step 2: Store the string in the stringstream
+
+    // string output;
+    // ss >> output;  // Step 3: Extract the stored string
+
+    // cout << "Stored String: " << ss.str() << endl;  // Prints full stored string
+    // cout << "Extracted Word: " << output << endl;  // Extracts only the first word
     // How to create String Stream object 
-    // Declare string
     string str;
-    cin >> str;
+    getline(cin, str);
+    stringstream ss;
 
-    // Converting to stringstream object
-    stringstream sso(str);
-
-    cout << sso.str();
-
+    ss << str;
+    
+    int res = 0;
+    while (ss >> str) {
+        res = str.length();
+    }
+    cout << res << endl;
     return 0;
 }
