@@ -13,7 +13,7 @@ using namespace std;
 template <typename T>
 void print(T &m){
     cout<<"Size: " << m.size() << endl;
-   for(auto &it: m){ // O(nlogn)
+   for(auto &it: m){ // O(1)
         cout<< it.first <<" :"<<it.second << endl;
     } 
 }
@@ -21,7 +21,7 @@ void print(T &m){
 int main(){
     // Map Syntax: 
     // It is discontinue in nature 
-    // map<datatype, datatype> map_name;
+    // unordered_map<datatype, datatype> map_name;
     
     // Methods:
     /*
