@@ -2,7 +2,7 @@
 using namespace std;
 
 /**
- * Set: It stores unique elements 
+ * Unordered Set: It stores unique elements 
  * Doesn't Display elements in the ascending order 
  * Uses HashTable
  * Used when order doesn't only the check that value is present or not bcoz time complexity of searching is O(1)
