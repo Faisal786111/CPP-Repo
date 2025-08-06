@@ -1,12 +1,13 @@
 #include <bits/stdc++.h>
 using namespace std;
 /**
- * Set: It stores duplicate elements also
+ * MultiSet: It stores duplicate elements also
  * Display elements in the ascending order 
  * Uses Red Black Trees
+ * Instead of priority we can use multiset
  * 
  * Syntax: 
- * multiset<datatype/container, datatype> setName;
+ * multiset<datatype/container> setName;
  * 
  * Methods:
  * insert() -> O(logn) 
