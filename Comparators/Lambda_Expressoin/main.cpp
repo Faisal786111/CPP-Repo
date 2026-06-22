@@ -3,7 +3,7 @@ using namespace std;
 
 /**
  * Lambda Expression: 
- * It is tein orary function which can be written inside the main function;
+ * It is a temporary function which can be written inside the main function;
  * It is used to write comparator function.
  * 
  * Syntax: 
