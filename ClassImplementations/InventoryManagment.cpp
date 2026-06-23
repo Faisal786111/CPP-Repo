@@ -1,7 +1,6 @@
+#include <bits/stdc++.h>
 #include <iostream>
-#include <vector>
-#include <string>
-using namespace std;
+using namespace std; 
 
 /**
  * 3. Inventory Management System
@@ -15,7 +14,7 @@ Function Description –
 	2. productName (string)
 	3. quantity (int)
 3. Inventory class – This class manages the inventory
-	1. products (list of products) -> vector
+	1. products (list of products) -> unordered_map<pId, product> products;
 	2. addProduct (Product product)
 	3. updateQuantity (int productId, int quantity)
 	4. getProduct (int productId)
@@ -36,128 +35,133 @@ Output –
 2 Mouse 5
 
  */
-
-// Base Class
-class Category {
-protected:
-    int categoryId;
-    string categoryName;
-
-public:
+ 
+class Category { 
+    int categoryId; 
+    string categoryName; 
+    
+    public: 
     Category() {
-        categoryId = 0;
-        categoryName = "";
+        categoryId = 0; 
+        categoryName = ""; 
     }
-
-    Category(int id, string name) {
-        categoryId = id;
-        categoryName = name;
+    
+    Category(int cId, string cName) { 
+        categoryId = cId;
+        categoryName = cName; 
     }
+    
+    void setCategoryId(int cId) {
+        categoryId = cId; 
+    }
+    void setCategoryName(string cName) {
+        categoryName = cName;
+    }
+    
+    int getCategoryId() { return categoryId; }
+    string getCategoryName() { return categoryName; }
 };
 
-// Derived Class
-class Product : public Category {
-protected:
-    int productId;
-    string productName;
-    int quantity;
-
-public:
-    Product() {
+class Product: public Category { 
+    int productId; 
+    string productName; 
+    int quantity; 
+    
+    public: 
+    Product() { 
         productId = 0;
         productName = "";
+        quantity = 0; 
+    }
+    
+    Product(int cId, string cName, int pId, string pName): Category(cId, cName) {
+        productId = pId;
+        productName = pName; 
         quantity = 0;
     }
+    
+    void setProductId(int pId) { productId = pId; }
+    void setProductName(string pName) { productName = pName; }
+    void setQty(int qty) { quantity = qty; }
 
-    Product(int cid, string cname,
-            int pid, string pname)
-        : Category(cid, cname) {
+    int getProductId() {return productId;}
+    string getProductName() { return productName; }
+    int getQty() { return quantity; }
 
-        productId = pid;
-        productName = pname;
-        quantity = 0;
-    }
-
-    int getProductId() {
-        return productId;
-    }
-
-    string getProductName() {
-        return productName;
-    }
-
-    int getQuantity() {
-        return quantity;
-    }
-
-    void setQuantity(int qty) {
-        quantity = qty;
+    void print() { 
+        cout << productId << " " << productName << " " << quantity << endl;
     }
 };
 
-// Multilevel Inheritance
-class Inventory : public Product {
-private:
-    vector<Product> products;
+class Inventory: public Product {
+    // Fast lookup: by Id 
+    unordered_map<int, string> categories; // <cId, cName>;
+    unordered_map<int, Product> products; // <pId, Product>;
 
-public:
-    void addProduct(Product product) {
-        products.push_back(product);
+    public: 
+    void addCategory(int cId, string cName) { 
+        categories[cId] = cName; 
     }
 
-    void updateQuantity(int productId, int quantity) {
-        for (auto &p : products) {
-            if (p.getProductId() == productId) {
-                p.setQuantity(quantity);
-                return;
-            }
+    void addProdut(int cId, int pId, string pName) { 
+        string cName = (categories.count(cId) ? categories[cId]: "");
+
+        Product p(cId, cName, pId, pName);
+        products[pId] = p; 
+    }
+
+    void updateQty(int pId, int qty) { 
+        // Key exists inside the map? count will return 1 or 0
+        if(products.count(pId)) { 
+            products[pId].setQty(qty); 
         }
     }
 
-    Product* getProduct(int productId) {
-        for (auto &p : products) {
-            if (p.getProductId() == productId) {
-                return &p;
-            }
+    void getProduct(int pId) { 
+        if(products.count(pId)) { 
+            products[pId].print(); 
+        } else { 
+            cout << "Product Not found" << endl;
         }
-        return nullptr;
     }
 };
 
-int main() {
+int main()
+{
+    Inventory i; 
 
-    Inventory inventory;
+    string CMD; 
 
-    Product p1(1, "Electronics", 1, "Laptop");
-    Product p2(1, "Electronics", 2, "Mouse");
+    while(cin >> CMD) { 
+        if(CMD == "ADD_CATEGORY") { 
+            int cId; 
+            string cName; 
 
-    inventory.addProduct(p1);
-    inventory.addProduct(p2);
+            cin >> cId >> cName; 
 
-    inventory.updateQuantity(1, 10);
+            i.addCategory(cId, cName); 
+        }
+        else if(CMD == "ADD") { 
+            int cId, pId;
+            string pName; 
 
-    Product* p = inventory.getProduct(1);
-    if (p) {
-        cout << p->getProductId() << " "
-             << p->getProductName() << " "
-             << p->getQuantity() << endl;
+            cin >> cId >> pId >> pName;
+
+            i.addProdut(cId, pId, pName);
+        }
+        else if(CMD == "UPDATE") { 
+            int pId, qty; 
+
+            cin >> pId >> qty;
+
+            i.updateQty(pId, qty); 
+        }
+        else if(CMD == "GET") { 
+            int pId; 
+
+            cin >> pId; 
+            i.getProduct(pId); 
+        }
     }
-
-    p = inventory.getProduct(2);
-    if (p) {
-        cout << p->getProductId() << " "
-             << p->getProductName() << " "
-             << p->getQuantity() << endl;
-    }
-
-    inventory.updateQuantity(2, 5);
-
-    p = inventory.getProduct(2);
-    if (p) {
-        cout << p->getProductId() << " "
-             << p->getProductName() << " "
-             << p->getQuantity() << endl;
-    }
-
     return 0;
 }
