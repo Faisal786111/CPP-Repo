@@ -6,7 +6,7 @@ using vi = vector<int>;
 
 /**
  * in 1 2 3 4 5 out 1 4 5 2 3 
- * punish ppl who overtook others count numer of punishments 4 and 5 are punished
+ * punish ppl who overtook others count numer of punishments 4, 5 and 3 are punished
  */
 
 int main()
@@ -31,7 +31,7 @@ int main()
     
     for(int i = 0; i < n - 1; i++) { 
         for(int j = i + 1; j < n; j++) { 
-            if(outOrder[i] > outOrder[j]) {
+            if(outOrder[i] < outOrder[j]) {
                 cnt++; 
                 break;
             } 
