@@ -11,22 +11,23 @@ using vi = vector<int>;
 
 int main()
 {
-    vi in = {1, 2, 3, 4, 5};
+     vi in = {1, 2, 3, 4, 5};
     vi out = {1, 4, 5, 2, 3};
     int n = out.size(); 
     
-    unordered_map<int, int> m; // element with entry orders 
+    // entrey order store 
+    unordered_map<int, int> m; 
     
-    for(int i = 0; i < in.size(); i++) { 
-        m[in[i]] = i;    
-    }
+    for(int i = 0; i < n; i++) m[in[i]] = i; 
     
-    vi outOrder(n, 0); 
+    // replace out element with it's entry order 
+    vector<int> outOrder(n, 0);
     
-    for(int i = 0; i < n; i++) {
+    for(int i = 0; i < n; i++) { 
         outOrder[i] = m[out[i]];
     }
     
+    // we need to find the person who overtook the other person 
     int cnt = 0; 
     
     for(int i = 0; i < n - 1; i++) { 
@@ -34,12 +35,11 @@ int main()
             if(outOrder[i] < outOrder[j]) {
                 cnt++; 
                 break;
-            } 
+            }
         }
     }
     
-    cout << cnt; 
-    
+    cout << cnt << endl;
     
     return 0;
 }
